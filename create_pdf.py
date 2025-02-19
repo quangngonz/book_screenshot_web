@@ -6,8 +6,6 @@ from utils.crop_images import crop_images
 
 SCREENSHOT_DIR = 'screenshots'
 
-import os
-
 # Get the sorted files and indexed files
 indexed_files, sorted_files = get_sorted_files(SCREENSHOT_DIR)
 
