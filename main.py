@@ -26,7 +26,7 @@ def set_high_res():
     })
     print("High resolution set.")
 
-login(driver, "https://cgpbooks.co.uk/extras", os.getenv("EMAIL"), os.getenv("PASSWORD"))
+login(driver, os.getenv("URL"), os.getenv("EMAIL"), os.getenv("PASSWORD"))
 
 def take_screenshot(screenshot_path, index):
     # Click on the "Zoom In" button
