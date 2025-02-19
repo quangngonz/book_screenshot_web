@@ -1,7 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-import time, os
+from selenium.webdriver.common.action_chains import ActionChains
+
+import os, filecmp
+from utils.pause import pause
+from utils.login import login
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -18,78 +21,91 @@ def set_high_res():
     driver.execute_cdp_cmd("Emulation.setDeviceMetricsOverride", {
         "width": 3840,
         "height": 2160,
-        "deviceScaleFactor": 3,  # Simulates a high DPI screen
-        "mobile": True
-    })
-    driver.execute_cdp_cmd("Emulation.setTouchEmulationEnabled", {
-        "enabled": False
+        "deviceScaleFactor": 2, 
+        "mobile": False
     })
     print("High resolution set.")
 
-def login_and_screenshot(url, username, password):
-    driver.get(url)
-    print(f"Opened the URL: {url}")
+login(driver, "https://cgpbooks.co.uk/extras", os.getenv("EMAIL"), os.getenv("PASSWORD"))
 
-    #Click on element with id=signin
-    driver.find_element(By.ID, "signin").click()
-    
-    # Find and fill the username field with id p_lt_Body_lt_ctl01_Login_Login1_UserName
-    driver.find_element(By.ID, "p_lt_Body_lt_ctl01_Login_Login1_UserName").send_keys(username)
-    
-    # Find and fill the password field
-    driver.find_element(By.ID, "p_lt_Body_lt_ctl01_Login_Login1_Password").send_keys(password)
-    
-    # Submit the form by clicking the submit button
-    driver.find_element(By.ID, "p_lt_Body_lt_ctl01_Login_Login1_LoginButton").click()
+def take_screenshot(screenshot_path, index):
+    # Click on the "Zoom In" button
+    zoom_in_button = driver.find_element(By.CSS_SELECTOR, "button:nth-of-type(4) path")
+    ActionChains(driver).move_to_element(zoom_in_button).click().perform()
+    pause(1, "zoom in button")  # Wait for the action to complete
 
-    # Select image with title
-    driver.find_element(By.ID, "p_lt_Body_lt_ctl00_MyProductList_rptProducts_ctl01_ucProductSummary_btnProductLinkMain").click()
+    #Double-click on the "minus" span (zoom out) 4 times
+    minus_span = driver.find_element(By.CSS_SELECTOR, "span.minus")
+    for i in range(3):
+        ActionChains(driver).move_to_element(minus_span).click().perform()
+        # pause(1, "minus span")  # Wait for the action to complete
 
-    # Wait for the page to load with a visible countdown timer
-    for i in range(10, 0, -1):
-        print(f"Waiting for the page to load: {i} seconds remaining", end="\r")
-        time.sleep(1)
-    print("Page loaded.                                                ")
+    #Remove the "Zoom Panel" element
+    #Hide the "Zoom Panel" element by setting display: none
+    script_hide = """
+    var element = document.querySelector('.zoom-panel');
+    if (element) {
+        element.style.display = 'none';
+    }
+    """
+    driver.execute_script(script_hide)
+    # pause(1, "hide panel")  # Pause for 5 seconds to observe the change
 
-def click_next_page():
-    # Wait for the button to be present (if needed)
-    time.sleep(2)  # Replace with WebDriverWait if page load times vary
+    # Step 2: Take a screenshot of the page
+    driver.save_screenshot(screenshot_path)
+    print(f"Screenshot saved as {screenshot_path}")
 
-    iframe = driver.find_element(By.ID, "mainFrame")
-    driver.switch_to.frame(iframe)
-    print("Switched to iframe.")
+    # Step 3: Restore the "Zoom Panel" element by setting display back to normal
+    script_restore = """
+    var element = document.querySelector('.zoom-panel');
+    if (element) {
+        element.style.display = '';
+    }
+    """
+    driver.execute_script(script_restore)
+    # pause(1, "show panel")  # Pause for 5 seconds to observe the change
 
-    # Click using data attribute (recommended)
-    button = driver.find_element(By.CSS_SELECTOR, '[data-nav-name="go-right"]').click()
-    time.sleep(5)  # Allow time for smooth scrolling
+    if index == 0:
+        next_page_button = driver.find_element(By.CSS_SELECTOR, "div.nav-arrows path")
+        ActionChains(driver).move_to_element(next_page_button).click().perform()
+    else:
+        next_page_button = driver.find_element(By.CSS_SELECTOR, "button.nav-right-arrow path")
+        ActionChains(driver).move_to_element(next_page_button).click().perform()
+    pause(1, 'next page')  # Wait for the action to complete
 
-    print("Clicked Next Page button.")
+# refresh the page
+driver.refresh()
+pause(5, 'refresh page')  
 
-    # Switch back to the main page after interacting
-    driver.switch_to.default_content()
-    print("Switched back to main content.")
 
-def screenshot(screenshot_path):
-    set_high_res()
-    # refresh the page
-    driver.refresh()
-    time.sleep(5)  
+iframe = driver.find_element(By.ID, "mainFrame")
+driver.switch_to.frame(iframe)
+print("Switched to iframe.")
 
-    # Take a screenshot
-    driver.save_screenshot(f'/screenshot/{screenshot_path}')
-    print(f"Screenshot saved to {screenshot_path}")
+set_high_res()
 
-    click_next_page()
-    driver.save_screenshot("/screenshot/screenshot2.png")
-    print("Screenshot saved to screenshot2.png")
+index = 0 
 
-    input("Press Enter to close the browser...")
+if not os.path.exists("screenshots"):
+    os.makedirs("screenshots")
 
-# Example usage
-login_and_screenshot(
-    url="https://cgpbooks.co.uk/extras",
-    username=os.getenv("EMAIL"),
-    password=os.getenv("PASSWORD"),
-)
+while True:
+    take_screenshot(f"screenshot_{index}.png", index)
 
-screenshot("screenshot.png")
+    # Compare both files to check if they are the same
+    # If they are the same, break the loop
+    if index > 0:
+        previous_file = f"screenshots/screenshot_{index - 1}.png"
+        current_file = f"screenshot_{index}.png"
+        if filecmp.cmp(previous_file, current_file, shallow=False):
+            print("The screenshots are the same.")
+            break
+
+    if index == 170:
+        break
+
+    os.rename(f"screenshot_{index}.png", f"screenshots/screenshot_{index}.png")
+
+    index += 1
+
+input("Press Enter to close the browser...")

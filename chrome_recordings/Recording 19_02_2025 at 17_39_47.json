@@ -1,0 +1,119 @@
+{
+    "title": "Recording 19/02/2025 at 17:39:47",
+    "steps": [
+        {
+            "type": "setViewport",
+            "width": 1275,
+            "height": 372,
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "isLandscape": false
+        },
+        {
+            "type": "navigate",
+            "url": "https://library.cgpbooks.co.uk/digitalaccess/BISI42DF/Online/",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://library.cgpbooks.co.uk/digitalaccess/BISI42DF/Online/",
+                    "title": "Online Edition - Digital Access"
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                [
+                    "aria/Zoom In",
+                    "aria/[role=\"graphics-symbol\"]"
+                ],
+                [
+                    "button:nth-of-type(4) path"
+                ],
+                [
+                    "xpath///*[@id=\"publication\"]/div/div/div/div[2]/div/button[4]/svg/path"
+                ],
+                [
+                    "pierce/button:nth-of-type(4) path"
+                ]
+            ],
+            "offsetY": 5.5,
+            "offsetX": 8.5,
+            "frame": [
+                0
+            ]
+        },
+        {
+            "type": "doubleClick",
+            "target": "main",
+            "selectors": [
+                [
+                    "span.minus"
+                ],
+                [
+                    "xpath///*[@id=\"zoom-panel\"]/span[1]"
+                ],
+                [
+                    "pierce/span.minus"
+                ],
+                [
+                    "text/–"
+                ]
+            ],
+            "offsetY": 17.5,
+            "offsetX": 13.5,
+            "frame": [
+                0
+            ]
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                [
+                    "span.minus"
+                ],
+                [
+                    "xpath///*[@id=\"zoom-panel\"]/span[1]"
+                ],
+                [
+                    "pierce/span.minus"
+                ],
+                [
+                    "text/–"
+                ]
+            ],
+            "offsetY": 17.5,
+            "offsetX": 13.5,
+            "frame": [
+                0
+            ]
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                [
+                    "aria/Next Page (right arrow key)",
+                    "aria/[role=\"graphics-symbol\"]"
+                ],
+                [
+                    "div.nav-arrows path"
+                ],
+                [
+                    "xpath///*[@id=\"publication\"]/div/div/div/div[3]/div[3]/button/svg/path"
+                ],
+                [
+                    "pierce/div.nav-arrows path"
+                ]
+            ],
+            "offsetY": 26.5,
+            "offsetX": 14.5,
+            "frame": [
+                0
+            ]
+        }
+    ]
+}

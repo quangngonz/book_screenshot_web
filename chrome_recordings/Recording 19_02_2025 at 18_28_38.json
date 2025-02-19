@@ -1,0 +1,49 @@
+{
+    "title": "Recording 19/02/2025 at 18:28:38",
+    "steps": [
+        {
+            "type": "setViewport",
+            "width": 1275,
+            "height": 372,
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "isLandscape": false
+        },
+        {
+            "type": "navigate",
+            "url": "https://library.cgpbooks.co.uk/digitalaccess/BISI42DF/Online/",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://library.cgpbooks.co.uk/digitalaccess/BISI42DF/Online/",
+                    "title": "Online Edition - Digital Access"
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                [
+                    "aria/Next Page (right arrow key)",
+                    "aria/[role=\"graphics-symbol\"]"
+                ],
+                [
+                    "button.nav-right-arrow path"
+                ],
+                [
+                    "xpath///*[@id=\"publication\"]/div/div/div/div[3]/div[4]/button[2]/svg/path"
+                ],
+                [
+                    "pierce/button.nav-right-arrow path"
+                ]
+            ],
+            "offsetY": 24.5,
+            "offsetX": 19.5,
+            "frame": [
+                0
+            ]
+        }
+    ]
+}
