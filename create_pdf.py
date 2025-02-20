@@ -44,4 +44,4 @@ def create_pdf(image_paths, output_pdf, compress_images=False, max_size=(2480, 3
     images[0].save(output_pdf, save_all=True, append_images=images[1:])
 
 # Create a PDF
-create_pdf(image, "output.pdf")
+create_pdf(image, "CGP_Cambridge_International_GCSE_Physics.pdf")

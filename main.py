@@ -89,6 +89,11 @@ index = 0
 if not os.path.exists("screenshots"):
     os.makedirs("screenshots")
 
+# Clear contents of the screenshots folder
+
+for file in os.listdir("screenshots"):
+    os.remove(f"screenshots/{file}")
+
 while True:
     take_screenshot(f"screenshot_{index}.png", index)
 
@@ -101,7 +106,7 @@ while True:
             print("The screenshots are the same.")
             break
 
-    if index == 170:
+    if index == 300:
         break
 
     os.rename(f"screenshot_{index}.png", f"screenshots/screenshot_{index}.png")

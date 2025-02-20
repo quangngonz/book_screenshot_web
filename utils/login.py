@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from utils.pause import pause
 
-def login(driver, url, username, password, default_book=True):
+def login(driver, url, username, password, default_book=None):
     driver.get(url)
     print(f"Opened the URL: {url}")
     try:
@@ -21,10 +21,10 @@ def login(driver, url, username, password, default_book=True):
     # Submit the form by clicking the submit button
     driver.find_element(By.ID, "p_lt_Body_lt_ctl01_Login_Login1_LoginButton").click()
 
-    if default_book:
+    if default_book is None:
         # Select image with title
         driver.find_element(By.ID, "p_lt_Body_lt_ctl00_MyProductList_rptProducts_ctl01_ucProductSummary_btnProductLinkMain").click()
     else:
-        input("Please select the book and press enter to continue.")
+        driver.find_element(By.ID, default_book).click()
 
     pause(5, "Logged in successfully.")
