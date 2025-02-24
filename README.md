@@ -2,6 +2,8 @@
 
 **For Educational Use Only**
 
+**DISCLAIMER:** This project is provided strictly for educational purposes.  It demonstrates techniques for web automation, image processing, and PDF generation. Do not use this tool to infringe upon the intellectual property rights of others.  This tool should not be used for any illegal or unethical activities.
+
 This project provides a set of tools to automate the process of capturing web content, specifically from websites that display paginated content, and converting that content into a single, organized PDF document. The project is designed for educational purposes, to explore web automation, image processing, and PDF creation techniques.
 
 ## Technical Overview
